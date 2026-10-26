@@ -1,0 +1,174 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Practical Code Bank</title>
+<style>
+body{margin:0;background:#f4f6fa;color:#18202b;font-family:Arial,sans-serif}header{background:#172554;color:white;padding:22px}h1{margin:0 0 5px}main{max-width:1100px;margin:18px auto;padding:0 12px;display:grid;grid-template-columns:300px 1fr;gap:15px}.panel{background:white;border:1px solid #dce2eb;border-radius:12px;padding:14px}.tabs{display:flex;gap:8px;margin-bottom:12px}button{cursor:pointer;border:1px solid #cbd5e1;border-radius:8px;padding:10px;background:white}.tabs .active{background:#172554;color:white}.topic{display:block;width:100%;text-align:left;margin:7px 0}.topic.active{background:#eff6ff;border-color:#2563eb}.topic small{display:block;color:#667085;margin-top:4px}.head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.copy{background:#166534;color:white;border-color:#166534;font-weight:bold}pre{background:#0b1220;color:#e5edf9;padding:16px;border-radius:9px;overflow:auto;max-height:70vh;white-space:pre}code{font:14px/1.5 Consolas,monospace}.muted{font-size:13px;color:#667085}@media(max-width:700px){main{grid-template-columns:1fr}pre{max-height:none}}
+</style></head><body><header><h1>Practical Code Bank</h1><div>C++ & Java · 10 experiments</div></header><main><section class="panel"><div class="tabs"><button id="cppTab" class="active" onclick="setLang('cpp')">C++ (1–5)</button><button id="javaTab" onclick="setLang('java')">Java (6–10)</button></div><div id="topics"></div><p class="muted">Select a topic to display its code.</p></section><section class="panel"><div class="head"><div><h2 id="title"></h2><div id="filename" class="muted"></div></div><button class="copy" onclick="copyCode()">Copy Code</button></div><pre><code id="code"></code></pre><div id="status" class="muted"></div></section></main>
+<script>
+const experiments={cpp:[
+{title:"1. Largest of 3 numbers (if-else)",file:"largest.cpp",code:`#include <iostream>
+using namespace std;
+int main() {
+    int a, b, c;
+    cout << "Enter three numbers: ";
+    cin >> a >> b >> c;
+    if (a >= b && a >= c)
+        cout << "Largest = " << a;
+    else if (b >= a && b >= c)
+        cout << "Largest = " << b;
+    else
+        cout << "Largest = " << c;
+    return 0;
+}`},
+{title:"2. Addition of two 2x2 matrices",file:"matrix_add.cpp",code:`#include <iostream>
+using namespace std;
+int main() {
+    int a[2][2], b[2][2], c[2][2];
+    cout << "Enter 4 elements of first matrix: ";
+    for (int i=0;i<2;i++)
+        for (int j=0;j<2;j++) cin >> a[i][j];
+    cout << "Enter 4 elements of second matrix: ";
+    for (int i=0;i<2;i++)
+        for (int j=0;j<2;j++) cin >> b[i][j];
+    for (int i=0;i<2;i++)
+        for (int j=0;j<2;j++) c[i][j]=a[i][j]+b[i][j];
+    cout << "Sum of matrices:\\n";
+    for (int i=0;i<2;i++) {
+        for (int j=0;j<2;j++) cout << c[i][j] << " ";
+        cout << endl;
+    }
+    return 0;
+}`},
+{title:"3. Area of different shapes",file:"area_shapes.cpp",code:`#include <iostream>
+using namespace std;
+int main() {
+    int choice;
+    double r, l, b;
+    cout << "1. Circle\\n2. Rectangle\\n3. Triangle\\n";
+    cout << "Enter choice: ";
+    cin >> choice;
+    switch (choice) {
+        case 1:
+            cout << "Enter radius: "; cin >> r;
+            cout << "Area = " << 3.14159*r*r; break;
+        case 2:
+            cout << "Enter length and breadth: "; cin >> l >> b;
+            cout << "Area = " << l*b; break;
+        case 3:
+            cout << "Enter base and height: "; cin >> b >> l;
+            cout << "Area = " << 0.5*b*l; break;
+        default: cout << "Invalid choice";
+    }
+    return 0;
+}`},
+{title:"4. Copy constructor",file:"copy_constructor.cpp",code:`#include <iostream>
+using namespace std;
+class Student {
+public:
+    int marks;
+    Student(int m) { marks=m; }
+    Student(const Student &s) { marks=s.marks; }
+    void display() { cout << "Marks = " << marks << endl; }
+};
+int main() {
+    Student s1(85);
+    Student s2(s1);
+    cout << "Original object: "; s1.display();
+    cout << "Copied object: "; s2.display();
+    return 0;
+}`},
+{title:"5. Single inheritance",file:"single_inheritance.cpp",code:`#include <iostream>
+using namespace std;
+class Person {
+public:
+    void showName() { cout << "I am a person" << endl; }
+};
+class Student : public Person {
+public:
+    void showStudent() { cout << "I am a student" << endl; }
+};
+int main() {
+    Student s;
+    s.showName();
+    s.showStudent();
+    return 0;
+}`}
+],java:[
+{title:"6. Simple Java program (confirm exact journal title)",file:"SimpleProgram.java",code:`class SimpleProgram {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}`},
+{title:"7. OOP concepts — class and object",file:"OOPDemo.java",code:`class Student {
+    int marks;
+    void display() {
+        System.out.println("Marks = " + marks);
+    }
+}
+public class OOPDemo {
+    public static void main(String[] args) {
+        Student s = new Student();
+        s.marks = 85;
+        s.display();
+    }
+}`},
+{title:"8. Exception handling",file:"ExceptionDemo.java",code:`public class ExceptionDemo {
+    public static void main(String[] args) {
+        try {
+            int a = 10, b = 0;
+            System.out.println(a / b);
+        } catch (ArithmeticException e) {
+            System.out.println("Cannot divide by zero");
+        } finally {
+            System.out.println("Program ended");
+        }
+    }
+}`},
+{title:"9. AWT interface using components",file:"AWTInterface.java",code:`import java.awt.*;
+import java.awt.event.*;
+public class AWTInterface extends Frame {
+    AWTInterface() {
+        setTitle("Student Form");
+        setSize(350, 200);
+        setLayout(new FlowLayout());
+        Label label = new Label("Enter name:");
+        TextField name = new TextField(15);
+        Button button = new Button("Submit");
+        Label result = new Label("");
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                result.setText("Hello, " + name.getText());
+            }
+        });
+        add(label); add(name); add(button); add(result);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) { dispose(); }
+        });
+        setVisible(true);
+    }
+    public static void main(String[] args) { new AWTInterface(); }
+}`},
+{title:"10. Drawing shapes using AWT",file:"DrawShapes.java",code:`import java.awt.*;
+import java.awt.event.*;
+public class DrawShapes extends Frame {
+    DrawShapes() {
+        setTitle("Drawing Shapes");
+        setSize(400, 300);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) { dispose(); }
+        });
+        setVisible(true);
+    }
+    public void paint(Graphics g) {
+        g.drawLine(50, 70, 150, 70);
+        g.drawRect(50, 100, 100, 60);
+        g.drawOval(200, 100, 90, 60);
+        g.drawString("Line, Rectangle and Oval", 50, 210);
+    }
+    public static void main(String[] args) { new DrawShapes(); }
+}`}
+]};
+let lang="cpp",idx=0;
+function setLang(l){lang=l;idx=0;document.getElementById("cppTab").classList.toggle("active",l==="cpp");document.getElementById("javaTab").classList.toggle("active",l==="java");render();}
+function render(){const root=document.getElementById("topics");root.innerHTML="";experiments[lang].forEach((x,i)=>{const b=document.createElement("button");b.className="topic"+(i===idx?" active":"");b.innerHTML=x.title+"<small>"+x.file+"</small>";b.onclick=()=>{idx=i;render();};root.appendChild(b);});const x=experiments[lang][idx];document.getElementById("title").textContent=x.title;document.getElementById("filename").textContent="Save as: "+x.file;document.getElementById("code").textContent=x.code;document.getElementById("status").textContent="";}
+async function copyCode(){const s=experiments[lang][idx].code,st=document.getElementById("status");try{await navigator.clipboard.writeText(s);st.textContent="Copied! Paste into your editor.";}catch(e){const t=document.createElement("textarea");t.value=s;document.body.appendChild(t);t.select();const ok=document.execCommand("copy");t.remove();st.textContent=ok?"Copied! Paste into your editor.":"Select the code manually and copy it.";}}
+render();
+</script></body></html>
